@@ -14,7 +14,7 @@ class AppointmentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request
      */
     public function index(Request $request) {}
 

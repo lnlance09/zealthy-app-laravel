@@ -184,10 +184,6 @@ const AppointmentCard = ({
                                         setDatetimeValue(newDate)
                                     }}
                                     showToday
-                                    value={DateTime.fromFormat(
-                                        datetimeValue,
-                                        dateFormat
-                                    ).toJSDate()}
                                 />
                             </Form.Field>
                             <Form.Field>

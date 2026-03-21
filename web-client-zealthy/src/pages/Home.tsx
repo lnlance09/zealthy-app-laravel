@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { ReduxState } from "../interfaces"
 import { Card, Container, Divider, Grid, Header, Segment } from "semantic-ui-react"
 import { setDosages, setMedications, setProviders, setUserData } from "../reducers/app"
+import { getDosages, getMedications, getProviders } from "../utils/api"
 import { DateTime } from "luxon"
 import { ToastContainer } from "react-toastify"
 import axios from "axios"
@@ -17,10 +18,9 @@ function Home() {
 
     const isAuth = useSelector((state: ReduxState) => state.app.auth)
     const user = useSelector((state: ReduxState) => state.app.user)
-    const prescriptions = useSelector((state: ReduxState) => state.app.user.prescriptions.data)
-    const prescriptionsF = useSelector(
-        (state: ReduxState) => state.app.user.prescriptionsFiltered.data
-    )
+
+    const prescriptions = user.prescriptions?.data
+    const prescriptionsF = user.prescriptionsFiltered?.data
 
     const { appointments } = user
 
@@ -33,40 +33,13 @@ function Home() {
             .catch(() => {})
     }
 
-    const getDosages = (userId = 0) => {
-        axios
-            .get(`${import.meta.env.VITE_API_BASE_URL}dosage?userId=${userId}`)
-            .then((response) => {
-                dispatch(setDosages({ dosages: response.data.data }))
-            })
-            .catch(() => {})
-    }
-
-    const getMedications = (userId = 0) => {
-        axios
-            .get(`${import.meta.env.VITE_API_BASE_URL}medication?userId=${userId}`)
-            .then((response) => {
-                dispatch(setMedications({ medications: response.data.data }))
-            })
-            .catch(() => {})
-    }
-
-    const getProviders = (userId = 0) => {
-        axios
-            .get(`${import.meta.env.VITE_API_BASE_URL}provider?userId=${userId}`)
-            .then((response) => {
-                dispatch(setProviders({ providers: response.data.data }))
-            })
-            .catch(() => {})
-    }
-
     useEffect(() => {
         if (!isAuth) {
             return
         }
-        getDosages(user.id)
-        getMedications(user.id)
-        getProviders(user.id)
+        getDosages((dosages) => dispatch(setDosages({ dosages })), user.id)
+        getMedications((medications) => dispatch(setMedications({ medications })), user.id)
+        getProviders((providers) => dispatch(setProviders({ providers })), user.id)
         getUser(user.id)
     }, [isAuth])
 
@@ -88,7 +61,6 @@ function Home() {
                                 <PrescriptionFilters
                                     src="app"
                                     prescriptions={[...prescriptions]}
-                                    prescriptionsFiltered={[...prescriptionsF]}
                                     meds={Array.from(
                                         new Map(
                                             [...prescriptions].map((p) => [

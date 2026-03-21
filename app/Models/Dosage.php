@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
+use Database\Factories\DosageFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Dosage extends Model
 {
-    /** @use HasFactory<UserFactory> */
+    /** @use HasFactory<DosageFactory> */
     use HasFactory;
 
     /**

@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
+use Database\Factories\PrescriptionFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Prescription extends Model
 {
-    /** @use HasFactory<UserFactory> */
+    /** @use HasFactory<PrescriptionFactory> */
     use HasFactory;
 
     /**

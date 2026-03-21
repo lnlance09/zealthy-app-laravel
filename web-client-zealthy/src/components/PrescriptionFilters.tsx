@@ -9,19 +9,12 @@ import SemanticDatepicker from "react-semantic-ui-datepickers"
 
 interface Params {
     prescriptions: Prescription[]
-    prescriptionsFiltered: Prescription[]
     dosages: Dosage[]
     meds: Medication[]
     src?: "admin" | "app"
 }
 
-const PrescriptionFilters = ({
-    prescriptions,
-    prescriptionsFiltered,
-    dosages,
-    meds,
-    src = "admin"
-}: Params) => {
+const PrescriptionFilters = ({ prescriptions, dosages, meds, src = "admin" }: Params) => {
     const dispatch = useDispatch()
 
     const [med, setMed] = useState(0)
@@ -105,6 +98,20 @@ const PrescriptionFilters = ({
         }
         return _prescriptions
     }
+
+    const earliestRefill =
+        prescriptions.length > 0
+            ? [...prescriptions].sort(
+                  (a, b) => new Date(a.refillOn).valueOf() - new Date(b.refillOn).valueOf()
+              )[0].refillOn
+            : 0
+
+    const latestRefill =
+        prescriptions.length > 0
+            ? [...prescriptions].sort(
+                  (a, b) => new Date(b.refillOn).valueOf() - new Date(a.refillOn).valueOf()
+              )[0].refillOn
+            : 0
 
     return (
         <Form>
@@ -272,6 +279,12 @@ const PrescriptionFilters = ({
                 <SemanticDatepicker
                     clearable
                     datePickerOnly
+                    filterDate={(date: Date) => {
+                        return (
+                            date.valueOf() >= new Date(earliestRefill).valueOf() &&
+                            date.valueOf() <= new Date(latestRefill).valueOf()
+                        )
+                    }}
                     format="MM-DD-YYYY"
                     onChange={(_e, data) => {
                         const date = data.value?.valueOf()
@@ -345,22 +358,6 @@ const PrescriptionFilters = ({
                             return
                         }
                         setSchedule(value)
-
-                        if (value === "all") {
-                            if (src === "admin") {
-                                dispatch(
-                                    setUserPrescriptions({
-                                        prescriptions: [...prescriptionsFiltered]
-                                    })
-                                )
-                            }
-                            dispatch(
-                                setPrescriptions({
-                                    prescriptions: [...prescriptionsFiltered]
-                                })
-                            )
-                            return
-                        }
 
                         const _prescriptions = filterAll(
                             prescriptions,

@@ -13,9 +13,9 @@ class MedicationController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return DosageCollection
+     * @return MedicationCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): MedicationCollection
     {
         $userId = $request->input('userId', null);
 

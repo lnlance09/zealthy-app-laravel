@@ -19,7 +19,7 @@ class UserController extends Controller
      *
      * @return UserCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): UserCollection
     {
         $users = User::with(['appointments' => function ($query) {
             $query->orderBy('appointments.id', 'desc');
@@ -34,9 +34,9 @@ class UserController extends Controller
     /**
      * Display an instance of the resource.
      *
-     * @return UserResource
+     * @return Response|UserResource
      */
-    public function show($id)
+    public function show($id): Response|UserResource
     {
         $user = User::where('id', $id)
             ->with(['appointments' => function ($query) {
@@ -60,7 +60,7 @@ class UserController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function create(Request $request)
+    public function create(Request $request): Response
     {
         $request->validate([
             'name' => 'bail|required|max:40|min:4|regex:/^[a-zA-Z ]+$/',
@@ -95,7 +95,7 @@ class UserController extends Controller
      * @param  Request  $request
      * @return UserResource
      */
-    public function edit(Request $request)
+    public function edit(Request $request): UserResource
     {
         $request->validate([
             'id' => 'bail|required|exists:users,id',

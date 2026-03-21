@@ -23,6 +23,7 @@ import {
     Segment,
     Table
 } from "semantic-ui-react"
+import { getDosages, getMedications, getProviders } from "../utils/api"
 import { ReduxState } from "../interfaces"
 import { ToastContainer } from "react-toastify"
 import { DateTime } from "luxon"
@@ -69,38 +70,11 @@ function Admin() {
         setLoading(false)
     }
 
-    const getDosages = (userId = 0) => {
-        axios
-            .get(`${import.meta.env.VITE_API_BASE_URL}dosage?userId=${userId}`)
-            .then((response) => {
-                dispatch(setDosages({ dosages: response.data.data }))
-            })
-            .catch(() => {})
-    }
-
-    const getMedications = (userId = 0) => {
-        axios
-            .get(`${import.meta.env.VITE_API_BASE_URL}medication?userId=${userId}`)
-            .then((response) => {
-                dispatch(setMedications({ medications: response.data.data }))
-            })
-            .catch(() => {})
-    }
-
-    const getProviders = (userId = 0) => {
-        axios
-            .get(`${import.meta.env.VITE_API_BASE_URL}provider?userId=${userId}`)
-            .then((response) => {
-                dispatch(setProviders({ providers: response.data.data }))
-            })
-            .catch(() => {})
-    }
-
     useEffect(() => {
         getUsers()
-        getDosages()
-        getMedications()
-        getProviders()
+        getDosages((dosages) => dispatch(setDosages({ dosages })))
+        getMedications((medications) => dispatch(setMedications({ medications })))
+        getProviders((providers) => dispatch(setProviders({ providers })))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -118,7 +92,6 @@ function Admin() {
                         <Header>Prescriptions</Header>
                         <PrescriptionFilters
                             prescriptions={[...prescriptions]}
-                            prescriptionsFiltered={[...prescriptionsF]}
                             meds={Array.from(
                                 new Map(
                                     [...prescriptions].map((p) => [p.medication.id, p.medication])

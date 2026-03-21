@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Database\Factories\ProviderFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Provider extends Model
 {
+    /** @use HasFactory<ProviderFactory> */
     use HasFactory;
 
     /**

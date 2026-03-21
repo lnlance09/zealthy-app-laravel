@@ -15,7 +15,7 @@ class ProviderController extends Controller
      *
      * @return ProviderCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): ProviderCollection
     {
         $providers = Provider::all();
         return new ProviderCollection($providers);

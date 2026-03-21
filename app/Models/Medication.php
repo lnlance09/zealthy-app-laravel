@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
+use Database\Factories\MedicationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Medication extends Model
 {
-    /** @use HasFactory<UserFactory> */
+    /** @use HasFactory<MedicationFactory> */
     use HasFactory;
 
     /**
@@ -36,6 +36,6 @@ class Medication extends Model
 
     public function prescriptions()
     {
-        return $this->hasMany(Prescription::class, 'prescription_id', 'id');
+        return $this->hasMany(Prescription::class, 'medication_id', 'id');
     }
 }

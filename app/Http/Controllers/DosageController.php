@@ -15,7 +15,7 @@ class DosageController extends Controller
      *
      * @return DosageCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): DosageCollection
     {
         $userId = $request->input('userId', null);
 

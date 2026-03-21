@@ -234,7 +234,6 @@ const PrescriptionCard = ({
                         setRefillOnValue(newDate)
                     }}
                     showToday
-                    value={DateTime.fromFormat(refillOnValue, dateFormat).toJSDate()}
                 />
             </Form.Field>
             <Form.Field>

@@ -14,7 +14,7 @@ class PrescriptionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
      */
     public function index(Request $request) {}
 
