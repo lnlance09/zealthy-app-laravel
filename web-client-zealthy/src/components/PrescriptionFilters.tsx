@@ -287,6 +287,7 @@ const PrescriptionFilters = ({ prescriptions, dosages, meds, src = "admin" }: Pa
                         if (date === null) {
                             return
                         }
+                        date.setHours(0, 0, 0, 0)
                         const _date = date.valueOf()
                         setMinDate(_date)
                         const _prescriptions = filterAll(
