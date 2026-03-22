@@ -8,7 +8,7 @@ import { DateTime } from "luxon"
 import { toast } from "react-toastify"
 import { toastConfig } from "../utils/toast"
 import axios from "axios"
-import SemanticDatepicker from "react-semantic-ui-datepickers"
+import DatePicker from "react-datepicker"
 
 interface Params extends Appointment {
     createMode?: boolean
@@ -175,15 +175,17 @@ const AppointmentCard = ({
                             </Form.Field>
                             <Form.Field>
                                 <label>Date</label>
-                                <SemanticDatepicker
-                                    format="MM-DD-YYYY"
-                                    onChange={(_e, data) => {
+                                <DatePicker
+                                    onChange={(date: Date | null) => {
+                                        if (date === null) {
+                                            return
+                                        }
                                         const newDate = DateTime.fromMillis(
-                                            Date.parse(`${data.value}`)
+                                            date?.valueOf()
                                         ).toFormat(dateFormat)
                                         setDatetimeValue(newDate)
                                     }}
-                                    showToday
+                                    selected={new Date(datetimeValue)}
                                 />
                             </Form.Field>
                             <Form.Field>
