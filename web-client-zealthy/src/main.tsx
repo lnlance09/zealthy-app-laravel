@@ -1,5 +1,5 @@
 import "semantic-ui-css/semantic.min.css"
-import "react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css"
+import "react-datepicker/dist/react-datepicker.css"
 import "./scss/main.scss"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"

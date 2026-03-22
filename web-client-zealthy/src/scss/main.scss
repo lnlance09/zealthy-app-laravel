@@ -7,3 +7,15 @@
 .ui.label {
     cursor: pointer;
 }
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.ui.form {
+    .field {
+        .datepicker {
+            width: 100%;
+        }
+    }
+}

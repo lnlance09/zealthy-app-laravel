@@ -5,7 +5,7 @@ import { dosageOptions, frequencies, medicationOptions } from "../utils/general"
 import { setUserPrescriptions } from "../reducers/admin"
 import { setPrescriptions } from "../reducers/app"
 import { Dosage, Medication, Prescription } from "../interfaces"
-import SemanticDatepicker from "react-semantic-ui-datepickers"
+import DatePicker from "react-datepicker"
 
 interface Params {
     prescriptions: Prescription[]
@@ -20,7 +20,7 @@ const PrescriptionFilters = ({ prescriptions, dosages, meds, src = "admin" }: Pa
     const [med, setMed] = useState(0)
     const [minDosage, setMinDosage] = useState(0)
     const [maxDosage, setMaxDosage] = useState(0)
-    const [minDate, setMinDate] = useState(0)
+    const [minDate, setMinDate] = useState(new Date().valueOf())
     const [schedule, setSchedule] = useState("all")
 
     const getSelectedAmount = (value: number) => {
@@ -276,50 +276,25 @@ const PrescriptionFilters = ({ prescriptions, dosages, meds, src = "admin" }: Pa
             </Form.Group>
             <Form.Field>
                 <label>Refill starting on</label>
-                <SemanticDatepicker
-                    clearable
-                    datePickerOnly
+                <DatePicker
                     filterDate={(date: Date) => {
                         return (
                             date.valueOf() >= new Date(earliestRefill).valueOf() &&
                             date.valueOf() <= new Date(latestRefill).valueOf()
                         )
                     }}
-                    format="MM-DD-YYYY"
-                    onChange={(_e, data) => {
-                        const date = data.value?.valueOf()
-                        if (typeof date !== "number") {
-                            setMinDate(0)
-                            const _prescriptions = filterAll(
-                                prescriptions,
-                                med,
-                                minDosage,
-                                maxDosage,
-                                0,
-                                schedule
-                            )
-                            if (src === "admin") {
-                                dispatch(
-                                    setUserPrescriptions({
-                                        prescriptions: _prescriptions
-                                    })
-                                )
-                                return
-                            }
-                            dispatch(
-                                setPrescriptions({
-                                    prescriptions: _prescriptions
-                                })
-                            )
+                    onChange={(date: Date | null) => {
+                        if (date === null) {
                             return
                         }
-                        setMinDate(parseInt(`${date}`))
+                        const _date = date.valueOf()
+                        setMinDate(_date)
                         const _prescriptions = filterAll(
                             prescriptions,
                             med,
                             minDosage,
                             maxDosage,
-                            date,
+                            _date,
                             schedule
                         )
                         if (src === "admin") {
@@ -336,7 +311,7 @@ const PrescriptionFilters = ({ prescriptions, dosages, meds, src = "admin" }: Pa
                             })
                         )
                     }}
-                    showToday
+                    selected={new Date(minDate)}
                 />
             </Form.Field>
             <Form.Field>

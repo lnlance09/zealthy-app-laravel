@@ -8,7 +8,7 @@ import { Prescription, ReduxState } from "../interfaces"
 import { toast } from "react-toastify"
 import { toastConfig } from "../utils/toast"
 import axios from "axios"
-import SemanticDatepicker from "react-semantic-ui-datepickers"
+import DatePicker from "react-datepicker"
 
 interface Params extends Prescription {
     createMode?: boolean
@@ -225,15 +225,16 @@ const PrescriptionCard = ({
             </Form.Field>
             <Form.Field>
                 <label>Refill On</label>
-                <SemanticDatepicker
-                    format="MM-DD-YYYY"
-                    onChange={(_e, data) => {
-                        const newDate = DateTime.fromMillis(Date.parse(`${data.value}`)).toFormat(
-                            dateFormat
-                        )
+                <DatePicker
+                    className="datepicker"
+                    onChange={(date: Date | null) => {
+                        if (date === null) {
+                            return
+                        }
+                        const newDate = DateTime.fromMillis(date.valueOf()).toFormat(dateFormat)
                         setRefillOnValue(newDate)
                     }}
-                    showToday
+                    selected={new Date(refillOnValue)}
                 />
             </Form.Field>
             <Form.Field>

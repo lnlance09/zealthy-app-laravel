@@ -6,8 +6,8 @@
         <link rel="manifest" href="/manifest.json">
         <link rel="shortcut icon" href="/favicon.ico?v=1">
         <link rel="apple-touch-icon" sizes="128x128" href="/favicon.ico?v=1">
-        <link rel="stylesheet" href="/assets/index-BG1ZyybY.css">
-        <script type="module" crossorigin src="/assets/index-CaLg8iFO.js"></script>
+        <link rel="stylesheet" href="/assets/index-DF7A3fAr.css">
+        <script type="module" crossorigin src="/assets/index-WcM1i562.js"></script>
         <title>Zealthy</title>
     </head>
     <body>
